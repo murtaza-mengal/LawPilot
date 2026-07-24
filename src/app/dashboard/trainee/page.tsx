@@ -1,7 +1,10 @@
+import ProtectedRoute from "@/components/ProtectedRoute";
+import TraineeDashboardContent from "@/components/TraineeDashboardContent";
+
 export default function TraineeDashboard() {
   return (
-    <main>
-      <h1>Welcome Trainee</h1>
-    </main>
+    <ProtectedRoute allowedRole="Trainee">
+      <TraineeDashboardContent />
+    </ProtectedRoute>
   );
 }
