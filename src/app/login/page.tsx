@@ -21,48 +21,75 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "https://mengall.app.n8n.cloud/webhook-test/lawpilot-login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name.trim(),
-            belt_no: beltNumber.trim(),
-            password,
-          }),
-        }
-      );
+  "https://mengall.app.n8n.cloud/webhook/lawpilot-login",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: name.trim(),
+      belt_no: beltNumber.trim(),
+      password,
+    }),
+  }
+);
 
-      const responseText = await response.text();
+const responseText = await response.text();
 
-      let data: unknown = null;
+let data: {
+  success?: boolean;
+  message?: string;
+  name?: string;
+  belt_no?: string;
+  role?: string;
+  status?: string;
+} | null = null;
 
-      if (responseText) {
-        try {
-          data = JSON.parse(responseText);
-        } catch {
-          data = null;
-        }
-      }
+if (responseText) {
+  try {
+    data = JSON.parse(responseText);
+  } catch {
+    data = null;
+  }
+}
 
-      const user = Array.isArray(data) ? data[0] : data;
+if (!response.ok || data?.success !== true) {
+  setMessage(
+    data?.message || "Invalid name, belt number or password."
+  );
+  return;
+}
 
-      const loginSuccessful =
-        response.ok &&
-        user !== null &&
-        typeof user === "object" &&
-        Object.keys(user).length > 0;
+const user = {
+  name: data.name,
+  belt_no: data.belt_no,
+  role: data.role,
+  status: data.status,
+};
 
-      if (!loginSuccessful) {
-        setMessage("Invalid name, belt number or password.");
-        return;
-      }
+sessionStorage.setItem("lawpilotUser", JSON.stringify(user));
 
-      sessionStorage.setItem("lawpilotUser", JSON.stringify(user));
+switch (user.role?.toLowerCase()) {
+  case "admin":
+    router.push("/dashboard/admin");
+    break;
 
-      router.push("/dashboard");
+  case "cli":
+    router.push("/dashboard/cli");
+    break;
+
+  case "instructor":
+    router.push("/dashboard/instructor");
+    break;
+
+  case "trainee":
+    router.push("/dashboard/trainee");
+    break;
+
+  default:
+    router.push("/dashboard");
+}
     } catch (error) {
       console.error("Login error:", error);
 
