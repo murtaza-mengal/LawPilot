@@ -1,7 +1,10 @@
+import ProtectedRoute from "@/components/ProtectedRoute";
+import AdminDashboardContent from "@/components/AdminDashboardContent";
+
 export default function AdminDashboard() {
   return (
-    <main>
-      <h1>Welcome Admin</h1>
-    </main>
+    <ProtectedRoute allowedRole="Admin">
+      <AdminDashboardContent />
+    </ProtectedRoute>
   );
 }

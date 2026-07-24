@@ -1,7 +1,11 @@
-export default function CliDashboard() {
+import ProtectedRoute from "@/components/ProtectedRoute";
+
+export default function CLIDashboard() {
   return (
-    <main>
-      <h1>Welcome Chief Law Instructor</h1>
-    </main>
+    <ProtectedRoute allowedRole="CLI">
+      <main>
+        <h1>Welcome CLI</h1>
+      </main>
+    </ProtectedRoute>
   );
 }
