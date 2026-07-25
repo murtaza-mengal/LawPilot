@@ -46,7 +46,11 @@ export default function DashboardPage() {
   const [answer, setAnswer] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+function handleNewChat() {
+  setQuestion("");
+  setAnswer("");
+  setMessage("");
+}
   async function handleAskLawPilot() {
     const cleanQuestion = question.trim();
 
@@ -207,9 +211,25 @@ export default function DashboardPage() {
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <h3 className="text-xl font-semibold">
-                  LawPilot AI Assistant
-                </h3>
+               <div className="flex items-center justify-between gap-4">
+  <div>
+    <h3 className="text-xl font-semibold">
+      LawPilot AI Assistant
+    </h3>
+    <p className="mt-1 text-xs text-blue-300">
+      Role-Secure AI
+    </p>
+  </div>
+
+  <button
+    type="button"
+    onClick={handleNewChat}
+    disabled={isLoading}
+    className="rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-300 transition hover:bg-white/10 disabled:opacity-50"
+  >
+    + New Chat
+  </button>
+</div>
 
                 <p className="mt-3 text-sm leading-6 text-slate-400">
                   Ask questions about your attendance, results, assignments and
@@ -217,12 +237,18 @@ export default function DashboardPage() {
                 </p>
 
                 <textarea
-                  value={question}
-                  onChange={(event) => setQuestion(event.target.value)}
-                  placeholder="Ask LawPilot a question..."
-                  disabled={isLoading}
-                  className="mt-5 min-h-32 w-full rounded-xl border border-white/10 bg-slate-900 p-4 outline-none placeholder:text-slate-500 focus:border-blue-400 disabled:cursor-not-allowed disabled:opacity-60"
-                />
+  value={question}
+  onChange={(event) => setQuestion(event.target.value)}
+  onKeyDown={(event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleAskLawPilot();
+    }
+  }}
+  placeholder="Ask LawPilot a question..."
+  disabled={isLoading}
+  className="mt-5 min-h-32 w-full rounded-xl border border-white/10 bg-slate-900 p-4 outline-none placeholder:text-slate-500 focus:border-blue-400 disabled:cursor-not-allowed disabled:opacity-60"
+/>
 
                 <button
                   type="button"
@@ -233,11 +259,17 @@ export default function DashboardPage() {
                   {isLoading ? "LawPilot is thinking..." : "Ask LawPilot"}
                 </button>
 
-                {message && (
-                  <div className="mt-5 rounded-xl border border-red-500/20 bg-red-950/40 p-4 text-sm text-red-200">
-                    {message}
-                  </div>
-                )}
+                {isLoading && (
+  <div className="mt-5 rounded-xl border border-blue-500/20 bg-blue-950/30 p-4">
+    <p className="text-sm font-medium text-blue-300">
+      LawPilot is analysing your request...
+    </p>
+
+    <p className="mt-2 text-xs text-slate-400">
+      Checking your role and authorized access.
+    </p>
+  </div>
+)}
 
                 {answer && (
                   <div className="mt-5 rounded-xl border border-blue-500/20 bg-blue-950/40 p-5">
