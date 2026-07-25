@@ -1,6 +1,15 @@
+"use client";
+
 import Link from "next/link";
 
+
 export default function Sidebar() {
+
+  function handleLogout() {
+    sessionStorage.removeItem("lawpilotUser");
+    window.location.replace("/login");
+  }
+
   return (
     <aside className="hidden min-h-screen w-64 border-r border-white/10 bg-slate-900 p-5 md:block">
       <div className="mb-10">
@@ -69,12 +78,13 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-10 border-t border-white/10 pt-5">
-        <Link
-          href="/"
-          className="block rounded-xl border border-red-400/30 px-4 py-3 text-center text-red-300 transition hover:bg-red-500/10"
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="w-full rounded-xl border border-red-400/30 px-4 py-3 text-center text-red-300 transition hover:bg-red-500/10"
         >
           Logout
-        </Link>
+        </button>
       </div>
     </aside>
   );
