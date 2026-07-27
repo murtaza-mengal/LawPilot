@@ -520,8 +520,36 @@ http://localhost:3000
 ## 17. Testing the Application
 
 The current assignment version should primarily be tested using the implemented **Trainee** and **Admin** workflows.
-
 Recommended tests include:
+## Application Screenshots
+
+The following screenshots demonstrate the main LawPilot workflow and the role-secure AI behavior implemented in the current academic project version.
+
+### 1. LawPilot Home Page
+
+![LawPilot Home Page](docs/screenshots/01-home-page.png)
+
+### 2. Login Page
+
+![LawPilot Login Page](docs/screenshots/02-login-page.png)
+
+### 3. Trainee Dashboard
+
+After successful authentication, the Trainee is redirected to the role-specific dashboard.
+
+![Trainee Dashboard](docs/screenshots/03-trainee-dashboard.png)
+
+### 4. Trainee AI Security Test
+
+The authenticated Trainee attempts to request information about other trainees.
+
+![Trainee AI Security Question](docs/screenshots/04-trainee-ai-question.png)
+
+### 5. Role-Based AI Security Response
+
+LawPilot refuses the unauthorized request and restricts the Trainee to their own authorized records.
+
+![LawPilot Role-Based Security Response](docs/screenshots/05-trainee-ai-security-response.png)
 
 ### Authentication Test
 
@@ -587,6 +615,7 @@ Expected behavior:
 > LawPilot should refuse to provide other trainees' private records because the authenticated user has the Trainee role.
 
 After testing the Trainee account, the evaluator can log out and use the **Admin** test account to verify the Admin dashboard and Admin AI Assistant.
+
 ---
 
 ## 18. Deployment
